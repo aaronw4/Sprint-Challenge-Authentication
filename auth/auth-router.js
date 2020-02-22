@@ -23,7 +23,42 @@ router.post('/register', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-  // implement login
+  let {username, password} = req.body;
+
+  users.findBy({username})
+    .first()
+    .then(user => {
+      if (user && bcrypt.compareSync(password, user.password)) {
+        const token = genToken(user);
+
+        res.status(200).json({
+          username: user.name,
+          token: token
+        })
+      } else {
+        res.status(401).json({
+          error: 'Invalid Credentials'
+        })
+      }
+    })
+    .catch(err => {
+      res.status(500).json(err)
+    })
 });
+
+function genToken(user) {
+  const payload = {
+    userid: user.id,
+    username: user.username
+  };
+
+  const options = {
+    expiresIn: '3h'
+  };
+
+  const token = jwt.sign(payload, secrets.jwtSecret, options);
+
+  return token;
+}
 
 module.exports = router;
