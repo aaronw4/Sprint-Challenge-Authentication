@@ -1,46 +1,66 @@
 const request = require('supertest');
 const server = require('../api/server');
+const db = require('../database/dbConfig');
 
-describe('Post /register', () => {
-    it('Should return 201', () => {
-       request(server)
-        .post('/api/auth/register')
-        .send({username: 'Aaron', password: 'pass'})
-        .expect(201);
-    })
-    it('Should return json', () => {
-        request(server)
-         .post('/api/auth/register')
-         .send({username: 'Aaron', password: 'pass'})
-         .expect('Content-Type', /json/)
-     })
-});
+describe('Rest DB', () => {    
+    describe('Post /register', () => {
+        it('Should return 201', async (done) => {
+        await db('users').truncate()
 
-describe('Post /login', () => {
-    it('Should return 200', () => {
-        request(server)
-            .post('/api/auth/login')
-            .auth('username', 'password')
-            .expect(200)
-    })
-    it('Should return json', () => {
-        request(server)
-            .post('/api/auth/login')
-            .auth('username', 'password')
+            request(server)
+                .post('/api/auth/register')
+                .send({username: 'Aaron', password: 'pass'})
+                .expect(201, done);
+        })
+        it('Should return json', () => {
+            request(server)
+            .post('/api/auth/register')
+            .send({username: 'Aaron', password: 'pass'})
             .expect('Content-Type', /json/)
-    })
-})
+        })
+    });
 
-describe('Get /', () => {
-    it('Should return 401 with no auth', () => {
-        request(server)
-            .get('/api/auth')
-            .expect(401)
+
+    describe('Post /login', () => {
+        it('Should return 200', async (done) => {
+            request(server)
+                .post('/api/auth/login')
+                .send({username: 'Aaron', password: 'pass'})
+                .expect(200, done)
+        })
+        it('Should return json', () => {
+            request(server)
+                .post('/api/auth/login')
+                .send({username: 'Aaron', password: 'pass'})
+                .expect('Content-Type', /json/)                
+        })
     })
-    it('Should return 200 with auth', () => {
+
+    let token;
+
+    beforeAll((done) => {
         request(server)
-            .get('/api/auth')
-            .auth('token')
-            .expect(200)
+            .post('/api/auth/login')
+            .send({username: 'Aaron', password: 'pass'})
+            .end((err, res) => {
+                token = res.body.token;
+                done();
+            })
     })
+
+    describe('Get /', () => {
+        it('Should return 401 with no auth', (done) => {
+            request(server)
+                .get('/api/auth')
+                .expect(401, done)
+        })
+        it('Should return 200 with auth', (done) => {
+            console.log(token)
+            request(server)
+                .get('/api/auth')
+                .set('authorization', token)
+                .expect(200, done)
+        })
+    })
+
 })
