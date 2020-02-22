@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const secrets = require('../config/secrets');
+const auth = require('./authenticate-middleware');
 
 const users = require('../jokes/jokesModel');
 
@@ -60,5 +61,17 @@ function genToken(user) {
 
   return token;
 }
+
+router.get('/', auth, (req, res) => {
+  users.find()
+    .then(users => {
+      res.status(200).json(users);
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: 'Failed to get users'
+      })
+    })
+})
 
 module.exports = router;
