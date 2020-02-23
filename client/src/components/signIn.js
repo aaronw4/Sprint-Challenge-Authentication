@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export class SignIn extends React.Component {
     state = {
-        credentials = {
+        credentials: {
             username: '',
             password: ''
         }
@@ -13,7 +13,7 @@ export class SignIn extends React.Component {
         this.setState({
             credentials: {
                 ...this.state.credentials,
-                [e.target.name]: [e.target.value]
+                [e.target.name]: e.target.value
             }
         })
     }
@@ -22,7 +22,7 @@ export class SignIn extends React.Component {
         e.preventDefault();
 
         axios
-            .post('/api/auth/login', this.state.credentials)
+            .post('http://localhost:4000/api/auth/login', this.state.credentials)
             .then(res => {
                 localStorage.setItem('token', res.data.token);
                 this.props.history.push('/jokes');
@@ -30,11 +30,16 @@ export class SignIn extends React.Component {
             .catch(err => console.log(err))
     }
 
+    signUp() {
+        window.location='/'
+    }
+
     render() {
+        console.log(this.state.credentials)
         return (
             <div>
-                <button>Register</button>
-                <h1>Log In</h1>
+                <button onClick={this.signUp} className='linkButton'>Register</button>
+                <h1 className='title' id='logInTitle'>Log In</h1>
                 <form onSubmit={this.login}>
                     <input
                         type='text'

@@ -8,14 +8,14 @@ export class SignUp extends React.Component {
     }
 
     handleChange = e => {
-        this.setState({[e.target.name]: [e.target.value]})
+        this.setState({[e.target.name]: e.target.value})
     }
 
     register = e => {
-        e.preventDefault;
+        e.preventDefault();
 
         axios
-            .post('/api/auth/register', {
+            .post('http://localhost:4000/api/auth/register', {
                 username: this.state.username,
                 password: this.state.password
             })
@@ -25,12 +25,16 @@ export class SignUp extends React.Component {
             .catch(err => console.log(err));
     }
 
+    signIn() {
+        window.location='/signIn'
+    }
+
     render() {
         return (
             <div>
-                <button>Sign In</button>
-                <h1>Register</h1>
-                <p>Select a user name and password.</p>
+                <button onClick={this.signIn} className='linkButton'>Sign In</button>
+                <h1 className='title' id='registerTitle'>Register</h1>
+                <p className='directions'>Select a user name and password.</p>
                 <form onSubmit={this.register}>
                     <input
                         type='text'
