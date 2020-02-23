@@ -1,3 +1,58 @@
 .App {
   text-align: center;
 }
+.title {
+  text-align: center;
+  font-size: 40px;
+  background: white;
+  width: 200px;
+  margin: 50px auto;
+}
+#registerTitle {
+  width: 160px;
+}
+#logInTitle {
+  width: 140px;
+}
+.linkButton {
+  float: right;
+  margin-right: 8%;
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 20px;
+}
+.directions {
+  width: 250px;
+  background: white;
+  margin: 0 auto;
+}
+.input {
+  margin: 5px;
+  margin-top: 10px;
+}
+.jokeContainer {
+  color: white;
+  width: 70%;
+  margin: 50px auto;
+  text-align: center;
+  padding: 10px 50px;
+  font-size: x-large;
+}
+.jokesContainer div:nth-child(6n+0) {
+  background: #800000;
+}
+.jokesContainer div:nth-child(6n+1) {
+  background: #808000;
+}
+.jokesContainer div:nth-child(6n+2) {
+  background: #008080;
+}
+.jokesContainer div:nth-child(6n+3) {
+  background: #191970;
+}
+.jokesContainer div:nth-child(6n+4) {
+  background: #bdb76b;
+}
+.jokesContainer div:nth-child(6n+5) {
+  background: #663399;
+}

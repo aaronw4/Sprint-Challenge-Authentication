@@ -3,7 +3,8 @@ import {BrowserRouter, Route} from 'react-router-dom'
 import {SignUp} from './components/signUp';
 import {SignIn} from './components/signIn';
 import jokes from './components/jokes';
-import {PrivateRoute} from './components/privateRoute'
+import {PrivateRoute} from './components/privateRoute';
+import './App.css';
 
 function App() {
   return (
