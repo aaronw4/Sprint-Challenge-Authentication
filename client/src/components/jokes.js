@@ -3,7 +3,7 @@ import {axiosWithAuth} from '../components/axiosWithAuth';
 
 function Jokes() {
     const [jokes, setJokes] = useState([]);
-
+   
     useEffect(() => {
         const getJokes = () => {
             axiosWithAuth()
@@ -15,15 +15,21 @@ function Jokes() {
             .catch(err => console.log(err))
         };
         getJokes()
-    })
+    },[]);
+
+    function logOut() {
+        localStorage.removeItem('token');
+        window.location='/'
+    }
 
     return (
         <div>
-            <h1>Dad Jokes</h1>
-            <div>
+            <button onClick={logOut} className='linkButton'>Log Out</button>
+            <h1 className='title'>Dad Jokes</h1>
+            <div className='jokesContainer'>
                 {jokes.map(joke => (
-                    <div>
-                        
+                    <div key={joke.id} className='jokeContainer'>
+                        <p>{joke.joke}</p>
                     </div>
                 ))}
             </div>
