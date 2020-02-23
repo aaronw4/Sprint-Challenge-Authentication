@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-export class Register extends React.Component {
+export class SignUp extends React.Component {
     state = {
         username: '',
         password: ''
@@ -11,7 +11,7 @@ export class Register extends React.Component {
         this.setState({[e.target.name]: [e.target.value]})
     }
 
-    signUp = e => {
+    register = e => {
         e.preventDefault;
 
         axios
@@ -31,7 +31,7 @@ export class Register extends React.Component {
                 <button>Sign In</button>
                 <h1>Register</h1>
                 <p>Select a user name and password.</p>
-                <form onSubmit={this.signUp}>
+                <form onSubmit={this.register}>
                     <input
                         type='text'
                         name='username'
